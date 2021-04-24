@@ -1,0 +1,4 @@
+N 0 0
+M1RM4L3M2
+
+# Expected Output: S 4 99

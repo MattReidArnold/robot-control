@@ -1,8 +1,24 @@
 package app
 
+import (
+	"errors"
+	"fmt"
+	"io"
+)
+
+var (
+	ErrInstructionNotFound = errors.New("instruction not found")
+)
+
 type Scenario struct {
 	Direction
 	Position
+}
+
+type InputProvider interface {
+	StartDirection() Direction
+	StartPosition() Position
+	GetNextInstruction() (Instruction, error)
 }
 
 func NewScenario(d Direction, p Position) *Scenario {
@@ -12,11 +28,21 @@ func NewScenario(d Direction, p Position) *Scenario {
 	}
 }
 
-func ExecuteInstructions(s *Scenario, instructions ...Instruction) error {
-	for _, i := range instructions {
-		executeInstruction(s, i)
+func RunInstructionsPipeline(ip InputProvider, w io.Writer) error {
+	s := NewScenario(ip.StartDirection(), ip.StartPosition())
+	for {
+		ni, err := ip.GetNextInstruction()
+		if err == ErrInstructionNotFound {
+			break
+		}
+		if err != nil {
+			return err
+		}
+		executeInstruction(s, ni)
 	}
-	return nil
+
+	_, err := w.Write([]byte(fmt.Sprintf("%v", *s)))
+	return err
 }
 
 func executeInstruction(s *Scenario, i Instruction) {

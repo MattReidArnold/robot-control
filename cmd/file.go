@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"os"
 
 	"github.com/mattreidarnold/robot-control/app"
 	"github.com/mattreidarnold/robot-control/files"
@@ -19,16 +19,15 @@ func init() {
 }
 
 func fileRun(cmd *cobra.Command, args []string) {
-	//Read input
+	//Setup Input
 	r := files.NewFakeFileReader()
-	d, p, i, err := r.Read()
+
+	//Setup OutStream
+	o := os.Stdout
+
+	//Execute Instruction Pipeline
+	err := app.RunInstructionsPipeline(r, o)
 	if err != nil {
 		panic(err)
 	}
-	s := app.NewScenario(d, p)
-	//Execute instructions
-	app.ExecuteInstructions(s, i...)
-	//print result
-	fmt.Println(*s)
-
 }

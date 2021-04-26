@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "debug",
             "program": "${workspaceFolder}/main.go",
-            "args": ["file"]
+            "args": ["file", "-i", "test/fixtures/input_files/example.txt"]
         }
 
     ]

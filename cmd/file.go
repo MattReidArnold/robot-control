@@ -9,19 +9,24 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var fileCmd = &cobra.Command{
-	Use:   "file",
-	Short: "Read an input file for robot instructions",
-	Run:   fileRun,
-}
+var (
+	inFile  string
+	fileCmd = &cobra.Command{
+		Use:   "file",
+		Short: "Read an input file for robot instructions",
+		Run:   fileRun,
+	}
+)
 
 func init() {
+	fileCmd.Flags().StringVarP(&inFile, "in-file", "i", "", `Input file path (required). File must contain starting position and instructions`)
+	fileCmd.MarkFlagRequired("in-file")
 	rootCmd.AddCommand(fileCmd)
 }
 
 func fileRun(cmd *cobra.Command, args []string) {
 	//Setup File reader
-	f, err := os.Open("tmp/input_files/example.txt")
+	f, err := os.Open(inFile)
 	if err != nil {
 		panic(err)
 	}

@@ -37,24 +37,23 @@ func RunInstructionsPipeline(ip InputProvider, w io.Writer, cr ControlRobotFn) e
 			return err
 		}
 		cr(wi, ni)
-		handleOffGrid(wi)
 	}
 
 	_, err := w.Write([]byte(fmt.Sprintf("%v", *wi)))
 	return err
 }
 
-func handleOffGrid(wi *WorldInhabitant) {
-	if wi.X < 0 {
-		wi.X = 100 + wi.X
-	}
-	if wi.Y < 0 {
-		wi.Y = 100 + wi.Y
-	}
-	if wi.X > 99 {
-		wi.X = 100 - wi.X
-	}
-	if wi.Y > 99 {
-		wi.Y = 100 - wi.Y
-	}
-}
+// func handleOffGrid(wi *WorldInhabitant) {
+// 	if wi.X < 0 {
+// 		wi.X = 100 + wi.X
+// 	}
+// 	if wi.Y < 0 {
+// 		wi.Y = 100 + wi.Y
+// 	}
+// 	if wi.X > 99 {
+// 		wi.X = 100 - wi.X
+// 	}
+// 	if wi.Y > 99 {
+// 		wi.Y = 100 - wi.Y
+// 	}
+// }

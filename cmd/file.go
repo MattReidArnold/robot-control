@@ -36,8 +36,11 @@ func fileRun(cmd *cobra.Command, args []string) {
 	//Setup OutStream
 	o := os.Stdout
 
+	//Configure Robot
+	robotControls := app.NewRobotControl(app.NewDefaultRobot())
+
 	//Execute Instruction Pipeline
-	err = app.RunInstructionsPipeline(r, o)
+	err = app.RunInstructionsPipeline(r, o, robotControls)
 	if err != nil {
 		panic(err)
 	}

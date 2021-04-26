@@ -47,7 +47,7 @@ func fileRun(cmd *cobra.Command, args []string) {
 	robotControls := app.NewRobotControl(app.NewDefaultRobot())
 
 	//Configure World
-	world := robotControls.World(app.WrappedGridWorld(100, 100))
+	world := robotControls.InWorld(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
 	err = app.RunScenario(r, o, world, output.FormatWorldInhabitant)

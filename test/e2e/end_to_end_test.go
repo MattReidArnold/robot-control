@@ -33,10 +33,10 @@ func TestExampleFile(t *testing.T) {
 	robotControls := app.NewRobotControl(app.NewDefaultRobot())
 
 	//Configure World
-	world := robotControls.World(app.WrappedGridWorld(100, 100))
+	worldControls := robotControls.InWorld(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunScenario(r, o, world, output.FormatWorldInhabitant)
+	err = app.RunScenario(r, o, worldControls, output.FormatWorldInhabitant)
 
 	helpers.AssertNil(t, err)
 

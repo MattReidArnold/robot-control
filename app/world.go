@@ -1,6 +1,6 @@
 package app
 
-func (cr ControlRobotFn) World(wc ControlRobotFn) ControlRobotFn {
+func (cr ControlRobotFn) InWorld(wc ControlRobotFn) ControlRobotFn {
 	return func(wi *WorldInhabitant, i Instruction) {
 		cr(wi, i)
 		wc(wi, i)

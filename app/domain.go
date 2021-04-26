@@ -26,3 +26,8 @@ type Instruction struct {
 	Command
 	Repetitions int
 }
+
+type Orientation struct {
+	Direction
+	Position
+}

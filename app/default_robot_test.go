@@ -40,11 +40,11 @@ func TestDefaultRobot_Rotation(t *testing.T) {
 		for _, dt := range rt.dirTests {
 			t.Run(fmt.Sprintf("rotate %s when facing %s", rt.command, dt.from), func(t *testing.T) {
 				want := dt.to
-				wi := &app.WorldInhabitant{
+				o := &app.Orientation{
 					Direction: dt.from,
 				}
-				app.NewDefaultRobot()[rt.command](wi)
-				got := wi.Direction
+				app.NewDefaultRobot()[rt.command](o)
+				got := o.Direction
 
 				if got != want {
 					helpers.FailAssertion(t, "final direction", got, want)
@@ -74,12 +74,12 @@ func TestDefaultRobot_Movement(t *testing.T) {
 	for _, mt := range moveTests {
 		t.Run(fmt.Sprintf("move forward when facing %s", mt.direction), func(t *testing.T) {
 			want := mt.endAt
-			wi := &app.WorldInhabitant{
+			o := &app.Orientation{
 				Direction: mt.direction,
 				Position:  startFrom,
 			}
-			app.NewDefaultRobot()[app.CommandMoveForward](wi)
-			got := wi.Position
+			app.NewDefaultRobot()[app.CommandMoveForward](o)
+			got := o.Position
 
 			if got != want {
 				helpers.FailAssertion(t, "final position", got, want)

@@ -36,7 +36,7 @@ func TestExampleFile(t *testing.T) {
 	worldControls := robotControls.InWorld(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunScenario(r, o, worldControls, output.FormatWorldInhabitant)
+	err = app.RunScenario(r, o, worldControls, output.FormatOrientation)
 
 	helpers.AssertNil(t, err)
 

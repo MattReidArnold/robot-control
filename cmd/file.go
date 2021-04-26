@@ -50,7 +50,7 @@ func fileRun(cmd *cobra.Command, args []string) {
 	world := robotControls.InWorld(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunScenario(r, o, world, output.FormatWorldInhabitant)
+	err = app.RunScenario(r, o, world, output.FormatOrientation)
 	if err != nil {
 		cmdErrs <- err
 		return

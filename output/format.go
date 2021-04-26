@@ -6,6 +6,6 @@ import (
 	"github.com/mattreidarnold/robot-control/app"
 )
 
-func FormatWorldInhabitant(wi *app.WorldInhabitant) []byte {
-	return []byte(fmt.Sprintf("%+v", *wi))
+func FormatOrientation(o *app.Orientation) []byte {
+	return []byte(fmt.Sprintf("%+v", *o))
 }

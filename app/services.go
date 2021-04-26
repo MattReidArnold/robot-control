@@ -9,22 +9,17 @@ var (
 	ErrInstructionNotFound = errors.New("instruction not found")
 )
 
-type WorldInhabitant struct {
-	Direction
-	Position
-}
-
 type InputProvider interface {
 	StartDirection() Direction
 	StartPosition() Position
 	GetNextInstruction() (Instruction, error)
 }
 
-type ControlRobotFn func(*WorldInhabitant, Instruction)
-type FormatResultFn func(*WorldInhabitant) []byte
+type ControlRobotFn func(*Orientation, Instruction)
+type FormatResultFn func(*Orientation) []byte
 
 func RunScenario(ip InputProvider, w io.Writer, controlRobot ControlRobotFn, format FormatResultFn) error {
-	wi := &WorldInhabitant{
+	o := &Orientation{
 		Direction: ip.StartDirection(),
 		Position:  ip.StartPosition(),
 	}
@@ -36,9 +31,9 @@ func RunScenario(ip InputProvider, w io.Writer, controlRobot ControlRobotFn, for
 		if err != nil {
 			return err
 		}
-		controlRobot(wi, ni)
+		controlRobot(o, ni)
 	}
 
-	_, err := w.Write(format(wi))
+	_, err := w.Write(format(o))
 	return err
 }

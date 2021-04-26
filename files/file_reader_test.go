@@ -10,27 +10,33 @@ import (
 	"github.com/mattreidarnold/robot-control/test/helpers"
 )
 
-func TestFileReader_New_with_example_file(t *testing.T) {
-	f, err := os.Open("../tmp/input_files/example.txt")
+const exampleFilePath = "../test/fixtures/input_files/example.txt"
+
+func OpenFile(path string) (*bufio.Reader, func()) {
+	f, err := os.Open(exampleFilePath)
 	if err != nil {
 		panic(err)
 	}
-	defer f.Close()
+	return bufio.NewReader(f), func() {
+		f.Close()
+	}
+}
 
-	_, got := files.NewFileReader(bufio.NewReader(f))
+func TestFileReader_New_with_example_file(t *testing.T) {
+	f, close := OpenFile(exampleFilePath)
+	defer close()
+
+	_, got := files.NewFileReader(f)
 
 	helpers.AssertNil(t, got)
 }
 
 func TestFileReader_StartDirection_with_example_file(t *testing.T) {
 	var want app.Direction = app.DirectionNorth
-	f, err := os.Open("../tmp/input_files/example.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
+	f, close := OpenFile(exampleFilePath)
+	defer close()
 
-	r, _ := files.NewFileReader(bufio.NewReader(f))
+	r, _ := files.NewFileReader(f)
 
 	got := r.StartDirection()
 
@@ -44,13 +50,10 @@ func TestFileReader_Position_with_example_file(t *testing.T) {
 		X: 0,
 		Y: 0,
 	}
-	f, err := os.Open("../tmp/input_files/example.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
+	f, close := OpenFile(exampleFilePath)
+	defer close()
 
-	r, _ := files.NewFileReader(bufio.NewReader(f))
+	r, _ := files.NewFileReader(f)
 
 	got := r.StartPosition()
 
@@ -68,13 +71,10 @@ func TestFileReader_GetNextInstruction_with_example_file(t *testing.T) {
 		{Command: app.CommandMoveForward, Repetitions: 2},
 	}
 
-	f, err := os.Open("../tmp/input_files/example.txt")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
+	f, close := OpenFile(exampleFilePath)
+	defer close()
 
-	r, _ := files.NewFileReader(bufio.NewReader(f))
+	r, _ := files.NewFileReader(f)
 
 	var got []app.Instruction
 	calls := 0

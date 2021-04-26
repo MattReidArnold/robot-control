@@ -16,10 +16,10 @@ func WrappedGridWorld(xSize, ySize int64) ControlRobotFn {
 			o.Y = ySize + o.Y
 		}
 		if o.X > 99 {
-			o.X = xSize - o.X
+			o.X = o.X - xSize
 		}
 		if o.Y > 99 {
-			o.Y = ySize - o.Y
+			o.Y = o.Y - ySize
 		}
 	}
 }

@@ -6,6 +6,7 @@ import (
 
 	"github.com/mattreidarnold/robot-control/app"
 	"github.com/mattreidarnold/robot-control/files"
+	"github.com/mattreidarnold/robot-control/output"
 	"github.com/spf13/cobra"
 )
 
@@ -49,7 +50,7 @@ func fileRun(cmd *cobra.Command, args []string) {
 	world := robotControls.World(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunScenario(r, o, world)
+	err = app.RunScenario(r, o, world, output.FormatWorldInhabitant)
 	if err != nil {
 		cmdErrs <- err
 		return

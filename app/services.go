@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"fmt"
 	"io"
 )
 
@@ -22,8 +21,9 @@ type InputProvider interface {
 }
 
 type ControlRobotFn func(*WorldInhabitant, Instruction)
+type FormatResultFn func(*WorldInhabitant) []byte
 
-func RunScenario(ip InputProvider, w io.Writer, controlRobot ControlRobotFn) error {
+func RunScenario(ip InputProvider, w io.Writer, controlRobot ControlRobotFn, format FormatResultFn) error {
 	wi := &WorldInhabitant{
 		Direction: ip.StartDirection(),
 		Position:  ip.StartPosition(),
@@ -39,6 +39,6 @@ func RunScenario(ip InputProvider, w io.Writer, controlRobot ControlRobotFn) err
 		controlRobot(wi, ni)
 	}
 
-	_, err := w.Write([]byte(fmt.Sprintf("%v", *wi)))
+	_, err := w.Write(format(wi))
 	return err
 }

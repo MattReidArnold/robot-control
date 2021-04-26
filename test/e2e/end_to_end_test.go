@@ -7,11 +7,12 @@ import (
 
 	"github.com/mattreidarnold/robot-control/app"
 	"github.com/mattreidarnold/robot-control/files"
+	"github.com/mattreidarnold/robot-control/output"
 	"github.com/mattreidarnold/robot-control/test/helpers"
 )
 
 func TestExampleFile(t *testing.T) {
-	want := "{S {4 99}}"
+	want := "{Direction:S Position:{X:4 Y:99}}"
 	//Setup File reader
 	f, err := os.Open("../fixtures/input_files/example.txt")
 	if err != nil {
@@ -35,7 +36,7 @@ func TestExampleFile(t *testing.T) {
 	world := robotControls.World(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunScenario(r, o, world)
+	err = app.RunScenario(r, o, world, output.FormatWorldInhabitant)
 
 	helpers.AssertNil(t, err)
 

@@ -1,14 +1,14 @@
 package app
 
 func NewDefaultRobot() Robot {
-	return map[Command]ControlFn{
-		CommandMoveForward: defaultMoveForward,
-		CommandRotateLeft:  defaultRotateLeft,
-		CommandRotateRight: defaultRotateRight,
+	return map[Command]ExecuteCommandFn{
+		CommandMoveForward: moveForwardOneUnit,
+		CommandRotateLeft:  rotateCounterClockwise90,
+		CommandRotateRight: rotateClockwise90,
 	}
 }
 
-func defaultRotateLeft(wi *WorldInhabitant) {
+func rotateCounterClockwise90(wi *WorldInhabitant) {
 	switch wi.Direction {
 	case DirectionNorth:
 		wi.Direction = DirectionWest
@@ -21,7 +21,7 @@ func defaultRotateLeft(wi *WorldInhabitant) {
 	}
 }
 
-func defaultRotateRight(wi *WorldInhabitant) {
+func rotateClockwise90(wi *WorldInhabitant) {
 	switch wi.Direction {
 	case DirectionNorth:
 		wi.Direction = DirectionEast
@@ -34,7 +34,7 @@ func defaultRotateRight(wi *WorldInhabitant) {
 	}
 }
 
-func defaultMoveForward(wi *WorldInhabitant) {
+func moveForwardOneUnit(wi *WorldInhabitant) {
 	switch wi.Direction {
 	case DirectionNorth:
 		wi.Y += 1

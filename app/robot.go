@@ -1,8 +1,8 @@
 package app
 
-type ControlFn func(*WorldInhabitant)
+type ExecuteCommandFn func(*WorldInhabitant)
 
-type Robot map[Command]ControlFn
+type Robot map[Command]ExecuteCommandFn
 
 func NewRobotControl(c Robot) ControlRobotFn {
 	return func(wi *WorldInhabitant, i Instruction) {

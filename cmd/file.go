@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"os"
 
 	"github.com/mattreidarnold/robot-control/app"
@@ -19,14 +20,24 @@ func init() {
 }
 
 func fileRun(cmd *cobra.Command, args []string) {
+	//Setup File reader
+	f, err := os.Open("tmp/input_files/example.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer f.Close()
+
 	//Setup Input
-	r := files.NewFakeFileReader()
+	r, err := files.NewFileReader(bufio.NewReader(f))
+	if err != nil {
+		panic(err)
+	}
 
 	//Setup OutStream
 	o := os.Stdout
 
 	//Execute Instruction Pipeline
-	err := app.RunInstructionsPipeline(r, o)
+	err = app.RunInstructionsPipeline(r, o)
 	if err != nil {
 		panic(err)
 	}

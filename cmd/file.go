@@ -28,7 +28,8 @@ func fileRun(cmd *cobra.Command, args []string) {
 	//Setup File reader
 	f, err := os.Open(inFile)
 	if err != nil {
-		panic(err)
+		cmdErrs <- err
+		return
 	}
 	defer f.Close()
 
@@ -50,6 +51,7 @@ func fileRun(cmd *cobra.Command, args []string) {
 	//Execute Instruction Pipeline
 	err = app.RunInstructionsPipeline(r, o, world)
 	if err != nil {
-		panic(err)
+		cmdErrs <- err
+		return
 	}
 }

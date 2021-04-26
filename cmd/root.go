@@ -9,29 +9,27 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var rootCmd = &cobra.Command{
-	Use: "robot-control [command]",
-}
+var (
+	cmdErrs chan error
+	rootCmd = &cobra.Command{
+		Use: "robot-control [command]",
+	}
+)
 
 // Execute runs the root command
 func Execute() {
-	errs := make(chan error)
+	cmdErrs = make(chan error)
 	go func() {
 		c := make(chan os.Signal)
 		signal.Notify(c, syscall.SIGINT, syscall.SIGTERM)
-		errs <- fmt.Errorf("%s", <-c)
+		cmdErrs <- fmt.Errorf("%s", <-c)
 	}()
 
 	go func() {
-		defer func() {
-			if r := recover(); r != nil {
-				errs <- fmt.Errorf("%v", r)
-			}
-		}()
-		errs <- rootCmd.Execute()
+		cmdErrs <- rootCmd.Execute()
 	}()
 
-	err := <-errs
+	err := <-cmdErrs
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

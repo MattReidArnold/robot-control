@@ -49,7 +49,7 @@ func fileRun(cmd *cobra.Command, args []string) {
 	world := robotControls.World(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunInstructionsPipeline(r, o, world)
+	err = app.RunScenario(r, o, world)
 	if err != nil {
 		cmdErrs <- err
 		return

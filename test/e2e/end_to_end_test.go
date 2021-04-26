@@ -35,7 +35,7 @@ func TestExampleFile(t *testing.T) {
 	world := robotControls.World(app.WrappedGridWorld(100, 100))
 
 	//Execute Instruction Pipeline
-	err = app.RunInstructionsPipeline(r, o, world)
+	err = app.RunScenario(r, o, world)
 
 	helpers.AssertNil(t, err)
 

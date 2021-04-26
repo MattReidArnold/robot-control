@@ -9,9 +9,6 @@ func (cr ControlRobotFn) InWorld(wc ControlRobotFn) ControlRobotFn {
 
 func WrappedGridWorld(xSize, ySize int64) ControlRobotFn {
 	return func(o *Orientation, i Instruction) {
-		if i.Command != CommandMoveForward {
-			return
-		}
 		if o.X < 0 {
 			o.X = xSize + o.X
 		}
